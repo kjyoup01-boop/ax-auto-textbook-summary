@@ -1,0 +1,176 @@
+<title>AX 자동차 교과서 구독 지도</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one reading column; summary charts first, full table last */
+:root{
+  --bg:#f3f4f2; --panel:#ffffff; --ink:#1c2228; --muted:#5d6670; --line:#d9ddd8;
+  --read:#9aa3ab; --pro:#3d4fb5; --extra:#d98a1c; --free:#2e8a6e; --bar-bg:#e6e9e5;
+  --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15191d; --panel:#1d2329; --ink:#e7eaec; --muted:#9aa4ad; --line:#323a42;
+  --read:#6e7882; --pro:#8494f0; --extra:#eaa84a; --free:#4fbf9b; --bar-bg:#2a3138; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15191d; --panel:#1d2329; --ink:#e7eaec; --muted:#9aa4ad; --line:#323a42;
+  --read:#6e7882; --pro:#8494f0; --extra:#eaa84a; --free:#4fbf9b; --bar-bg:#2a3138; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6}
+.wrap{max-width:1040px;margin:0 auto;padding-block:40px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:28px}
+h1{font-size:clamp(24px,4vw,34px);line-height:1.25;margin:0;text-wrap:balance;font-weight:700}
+h2{font-size:18px;margin:0 0 4px;font-weight:700}
+.sub{color:var(--muted);margin:6px 0 0;max-width:68ch}
+.sub a{color:var(--pro)}
+.note{border-left:3px solid var(--pro);padding:10px 14px;background:var(--panel);color:var(--ink);max-width:80ch}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;min-width:0}
+.cap{color:var(--muted);font-size:13px;margin:0 0 14px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:20px}
+@media (max-width:760px){.grid2{grid-template-columns:1fr}}
+.legend{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.lg{display:grid;grid-template-columns:14px 1fr auto;gap:10px;align-items:start;font-size:14px}
+.sw{width:14px;height:14px;border-radius:3px;margin-top:4px}
+.lg b{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.lg small{display:block;color:var(--muted);font-size:12.5px}
+svg text{fill:var(--ink);font-family:var(--sans)}
+svg .mut{fill:var(--muted)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.04em;color:var(--muted);font-weight:500}
+td.n{font-family:var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+code{font-family:var(--mono);font-size:12.5px}
+.tools{color:var(--muted);font-size:12.5px;display:block}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:500;color:#fff;white-space:nowrap}
+.p-read{background:var(--read)}.p-pro{background:var(--pro)}.p-extra{background:var(--extra);color:#2a1a00}.p-mix{background:var(--free)}
+.tier{display:flex;flex-direction:column;gap:14px}
+.tier h3{font-size:14px;margin:0 0 6px;display:flex;align-items:center;gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);border-radius:6px;padding:3px 9px;font-size:13px;background:var(--bg)}
+footer{color:var(--muted);font-size:12.5px}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>AX 자동차 교과서 구독 지도</h1>
+    <p class="sub">능률협회 「자동차산업과 생성형 AI 3-1」 <a href="https://github.com/keerhee/kma-auto-genai-3-1/tree/main/Textbook" target="_blank" rel="noopener">Textbook</a> 17개 파일을 무엇을 배우는지, 무슨 구독이 필요한지로 나눠 봤습니다.</p>
+  </header>
+
+  <p class="note">거의 모든 장의 기본 도구는 Claude 데스크톱 앱의 <b>Code 탭(Claude Code)</b>입니다. Code 탭은 <b>Pro · Max · Team · Enterprise 유료 요금제</b>에서만 열리고, 무료 요금제는 채팅만 됩니다. 요금은 2026년 10월 교재 기준입니다.</p>
+
+  <section class="grid2">
+    <div class="panel">
+      <h2>구독조건별 파일 수</h2>
+      <p class="cap">17개 파일 기준</p>
+      <svg id="donut" viewBox="0 0 220 220" width="100%" style="max-width:240px;display:block;margin:0 auto" role="img" aria-label="구독조건별 파일 수 도넛 차트"></svg>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div class="panel">
+      <h2>장별 실습 난이도</h2>
+      <p class="cap">진한 막대는 기본 실습, 옅은 연장은 나중에 해도 되는 심화 실습입니다. 색은 구독조건입니다.</p>
+      <div class="scroll"><svg id="levels" width="100%" role="img" aria-label="장별 난이도 범위 차트"></svg></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>프로그램별 구독조건</h2>
+    <p class="cap">교재에 나오는 주요 프로그램을 비용 구분으로 묶었습니다.</p>
+    <div class="tier" id="tiers"></div>
+  </section>
+
+  <section class="panel">
+    <h2>파일별 정리</h2>
+    <p class="cap">번호 · 파일명(주요 프로그램) · 기능 · 구독조건 순서입니다. images/ 폴더는 삽화라 뺐습니다.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>번호</th><th>파일명 (주요 프로그램)</th><th>기능 (배우는 내용)</th><th>구독조건</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+  </section>
+
+  <footer>출처: keerhee/kma-auto-genai-3-1 Textbook (2026-11-01 기준 사본). 요금은 바뀔 수 있습니다.</footer>
+</div>
+
+<script>
+const CATS = {
+  read:  {label:"무료 (읽기용)", desc:"목차 · 기획 · 용어집 · 색인", cls:"p-read",  v:"--read"},
+  mix:   {label:"읽기 무료 · 실습은 Pro", desc:"본문은 읽기 중심", cls:"p-mix", v:"--free"},
+  pro:   {label:"Claude Pro 이상만", desc:"그 밖의 도구는 모두 무료", cls:"p-pro", v:"--pro"},
+  extra: {label:"Pro + 추가 유료 옵션", desc:"API 종량 과금 · 다른 AI 구독 등", cls:"p-extra", v:"--extra"}
+};
+const ROWS = [
+  [1,"README.md","목차","교과서 목차 · 읽는 순서 · 업무별 바로가기 · 난이도(1~4단계) 안내","read","무료"],
+  [2,"00_교과서_기획.md","기획 문서","독자 · 목표 · 4부 12장 + 부록 3 구성, 집필 규칙","read","무료"],
+  [3,"01장_AI와_일하는_준비.md","Claude 데스크톱 · Claude Code · 스킬 · VS Code","Claude 앱 설치, Code 탭으로 작업 폴더 열기, CLAUDE.md · 스킬 개념","pro","Claude Pro 이상 · VS Code 무료(선택)",[1,1,1]],
+  [4,"02장_산업의_전환점_읽기.md","Claude · DART","테슬라 2008 · GM 2009 파산 · BYD로 산업 전환점 읽기","mix","읽기 무료 · 실습 시 Claude Pro 이상",[1,1,1]],
+  [5,"03장_데이터를_그림으로.md","스킬 · EGO Lite · Aside · Remotion","인포그래픽 · 대시보드 만들기, AI 브라우저 자동화","extra","Claude Pro 이상 · EGO Lite 무료 · Aside Free(월 500크레딧) / Pro $20 / Max $200",[1,2,2]],
+  [6,"04장_AI에게_일_잘_시키기.md","Claude Code · Obsidian","프롬프트, 하네스, 세컨드 브레인, RAG 챗봇","pro","Claude Pro 이상 · Obsidian 무료",[1,2,3]],
+  [7,"05장_숫자로_경쟁사_읽기.md","DART 공시 · Docker · MCP · MiroFish","공시 실적 · 자동차 금융, 지식그래프, AI 예측시장","extra","Claude Pro 이상 · 공시 열람 무료 · 심화는 Zep 계정 + API 키 2개",[1,2,4]],
+  [8,"06장_GitHub로_내_자료_관리.md","GitHub · GitHub CLI · GitHub Pages","저장소 만들기 · 커밋 · 푸시, Pages로 웹 공개","pro","Claude Pro 이상 · GitHub Free 가능",[2,3,3]],
+  [9,"07장_업무_에이전트_만들기.md","텔레그램 · Gmail · 카카오톡","판정 · 메신저 · 메일 · 뉴스레터 · 채용 심사단 에이전트","extra","Claude Pro 이상 · 텔레그램/Gmail 무료 · API 쓰면 종량 과금",[2,3,4]],
+  [10,"08장_에이전트를_팀으로.md","ORCA · Codex · Gemini CLI","역할 분담 에이전트 팀, 여러 AI 동시 운영, 투자위원회","extra","Claude Pro($20/월) 이상 · ORCA 무료 · Codex/Gemini는 각자 구독",[2,3,4]],
+  [11,"09장_스마트팩토리와_예지보전.md","Claude Code · Python · GitHub Pages","설비 센서 데이터로 고장 예측 대시보드","extra","Claude Pro 이상 · 선택 단계 AI 설명은 API 키",[1,3,3]],
+  [12,"10장_업무_웹앱_처음부터_끝까지.md","Supabase · Vercel · Cloudflare · Netlify · Stitch","요구사항 → 설계 → 개발 → 배포, AICC 콘솔","pro","Claude Pro 이상 · 배포는 무료 플랜(Vercel Hobby는 비상업용)",[2,4,4]],
+  [13,"11장_나만의_AI_업무시스템.md","GitHub Pages · Cloudflare Access · 에고라이트 · Blender · Gemini","포트폴리오 사이트, SSR+, 내 강의 만들기, 콘텐츠 자동화","extra","Claude Pro 이상 · 나머지 무료 · 개인 도메인만 유료(선택)",[2,3,3]],
+  [14,"12장_로봇과_스마트팩토리_특강.md","Claude Code · Python","로봇 SI 제안서 작성과 새 유형 대응","pro","Claude Pro 이상",[2,3,3]],
+  [15,"부록A_16주_자율학습_캠프.md","n8n · NotebookLM · Claude API","책 이후 16주 자율학습 계획","extra","Claude Pro 이상 · 14주차 n8n은 Claude API 종량 과금"],
+  [16,"부록B_용어집.md","용어집","12개 장에 나온 용어 풀이 모음","read","무료"],
+  [17,"부록C_자료_찾아보기.md","자료 색인","3-1B 실습 자료 59개 폴더 → 해당 장 연결","read","무료"]
+];
+const TIERS = [
+  ["pro","유료 (필수)",["Claude Pro 이상 · 월 US$20부터 (Code 탭 조건)"]],
+  ["extra","유료 (선택 · 쓴 만큼)",["Claude API 키","Aside Pro $20 / Max $200","Codex 구독","Gemini 유료 구독","Zep (MiroFish 심화)","개인 도메인"]],
+  ["mix","무료",["VS Code","Obsidian","GitHub Free","GitHub Pages","EGO Lite","ORCA","Docker","텔레그램","Gmail","Supabase 무료 플랜","Vercel Hobby","Cloudflare Pages · Access","Netlify","Blender","n8n","NotebookLM","Gemini 무료 키","DART 등 공시 시스템"]]
+];
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const NS = "http://www.w3.org/2000/svg";
+const el = (t,a,p) => { const e=document.createElementNS(NS,t); for(const k in a) e.setAttribute(k,a[k]); p&&p.appendChild(e); return e; };
+const esc = s => s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+
+// table + tiers
+document.getElementById("rows").innerHTML = ROWS.map(r =>
+  `<tr><td class="n">${r[0]}</td><td><code>${esc(r[1])}</code><span class="tools">${esc(r[2])}</span></td><td>${esc(r[3])}</td><td><span class="pill ${CATS[r[4]].cls}">${CATS[r[4]].label}</span><span class="tools">${esc(r[5])}</span></td></tr>`).join("");
+document.getElementById("tiers").innerHTML = TIERS.map(([c,t,list]) =>
+  `<div><h3><span class="pill ${CATS[c].cls}">${t}</span></h3><div class="chips">${list.map(x=>`<span class="chip">${esc(x)}</span>`).join("")}</div></div>`).join("");
+
+function draw(){
+  // donut
+  const d = document.getElementById("donut"); d.innerHTML="";
+  const order = ["extra","pro","mix","read"];
+  const counts = order.map(k => ROWS.filter(r=>r[4]===k).length);
+  const total = counts.reduce((a,b)=>a+b,0), R=88, C=2*Math.PI*R;
+  let off = 0;
+  el("circle",{cx:110,cy:110,r:R,fill:"none",stroke:css("--bar-bg"),"stroke-width":30},d);
+  order.forEach((k,i)=>{
+    const len = counts[i]/total*C;
+    el("circle",{cx:110,cy:110,r:R,fill:"none",stroke:css(CATS[k].v),"stroke-width":30,
+      "stroke-dasharray":`${len-2} ${C-len+2}`,"stroke-dashoffset":-off,transform:"rotate(-90 110 110)"},d);
+    off += len;
+  });
+  const paid = counts[0]+counts[1];
+  el("text",{x:110,y:108,"text-anchor":"middle","font-size":34,"font-weight":700},d).textContent = paid+"/"+total;
+  el("text",{x:110,y:132,"text-anchor":"middle","font-size":12,class:"mut"},d).textContent = "Pro 구독이 꼭 필요";
+  document.getElementById("legend").innerHTML = order.map((k,i)=>
+    `<div class="lg"><span class="sw" style="background:var(${CATS[k].v})"></span><span>${CATS[k].label}<small>${CATS[k].desc}</small></span><b>${counts[i]}개</b></div>`).join("");
+
+  // difficulty range chart
+  const s = document.getElementById("levels"); s.innerHTML="";
+  const ch = ROWS.filter(r=>r[6]);
+  const W=560, L=150, Rm=16, top=24, rowH=26, H=top+ch.length*rowH+8;
+  s.setAttribute("viewBox",`0 0 ${W} ${H}`); s.style.minWidth="460px";
+  const x = lv => L + (lv-0.5)/4*(W-L-Rm);
+  for(let lv=1; lv<=4; lv++){
+    el("line",{x1:x(lv),x2:x(lv),y1:top-6,y2:H-6,stroke:css("--line"),"stroke-width":1},s);
+    el("text",{x:x(lv),y:14,"text-anchor":"middle","font-size":11,class:"mut"},s).textContent = lv+"단계";
+  }
+  ch.forEach((r,i)=>{
+    const y = top + i*rowH + rowH/2, [a,b,deep]=r[6], col=css(CATS[r[4]].v);
+    el("text",{x:L-10,y:y+4,"text-anchor":"end","font-size":12},s).textContent = r[1].split("_")[0]+" "+r[1].split("_").slice(1,3).join(" ").replace(".md","");
+    if(deep>b) el("rect",{x:x(b),y:y-4,width:x(deep)-x(b),height:8,rx:4,fill:col,opacity:.3},s);
+    el("rect",{x:x(a)-7,y:y-7,width:x(b)-x(a)+14,height:14,rx:7,fill:col},s);
+  });
+}
+draw();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",draw);
+new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+</script>
