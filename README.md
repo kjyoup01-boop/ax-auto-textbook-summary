@@ -2,6 +2,7 @@
 
 원본: [keerhee/kma-auto-genai-3-1 / Textbook](https://github.com/keerhee/kma-auto-genai-3-1/tree/main/Textbook)
 (능률협회 「자동차산업과 생성형 AI 3-1」 교과서 · 정리일 2026-11-01)
+원본 전체 사본: [Textbook/](Textbook/) (이미지 포함)
 
 > **공통 전제** — 거의 모든 장의 기본 도구는 **Claude 데스크톱 앱의 Code 탭(Claude Code)** 이며,
 > Code 탭은 **유료 요금제(Pro · Max · Team · Enterprise)** 에서만 쓸 수 있습니다. 무료 요금제는 채팅만 됩니다.
